@@ -11,7 +11,7 @@ export class RepositoryModel extends ListModel<Project> {
     client = service;
     baseURI = 'orgs/idea2app/repos';
 
-    protected async loadPage(page: number, per_page: number) {
+    async loadPage(page: number, per_page: number) {
         const { body } = await this.client.get<Project[]>(
             `${this.baseURI}?${buildURLData({ page, per_page })}`
         );

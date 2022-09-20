@@ -1,11 +1,11 @@
 ![](src/image/logo.png)
 
-# React-MobX-Bootstrap.ts
+# Solidity CN - DApp front
 
 [React][1] project scaffold based on [TypeScript][2], [MobX][3] & [Bootstrap][4],
 which is inspired by [WebCell scaffold][5].
 
-[![CI & CD](https://github.com/idea2app/React-MobX-Bootstrap-ts/workflows/CI%20&%20CD/badge.svg)][7]
+[![CI & CD](https://github.com/Solidity-Chinese-Community/frontend/workflows/CI%20&%20CD/badge.svg)][7]
 
 ## Technology stack
 
@@ -46,7 +46,7 @@ pnpm build
 [3]: https://mobx.js.org/
 [4]: https://getbootstrap.com/
 [5]: https://github.com/EasyWebApp/scaffold
-[7]: https://github.com/idea2app/React-MobX-Bootstrap-ts/actions
+[7]: https://github.com/Solidity-Chinese-Community/frontend/actions
 [8]: https://react-bootstrap.github.io/
 [9]: https://github.com/EasyWebApp/KoAJAX
 [10]: https://developers.google.com/web/tools/workbox

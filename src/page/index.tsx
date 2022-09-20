@@ -31,7 +31,7 @@ export const PageFrame = () => (
                         </Nav.Link>
                         <Nav.Link
                             className="text-white"
-                            href="https://github.com/idea2app/React-MobX-Bootstrap-ts"
+                            href="https://github.com/Solidity-Chinese-Community/frontend"
                         >
                             Source code
                         </Nav.Link>
