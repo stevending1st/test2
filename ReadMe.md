@@ -35,6 +35,13 @@ pnpm i
 npm start
 ```
 
+## Gitpod
+```shell
+pnpm start:gitpod
+```
+
+
+
 ## Deployment
 
 ```shell
