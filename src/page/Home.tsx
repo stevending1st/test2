@@ -1,77 +1,87 @@
+import { Contract, providers } from 'ethers';
 import { PureComponent } from 'react';
 import { observer } from 'mobx-react';
 import { RouteComponentProps, withRouter } from 'react-router-class-tools';
+import { Container, Button } from 'react-bootstrap';
 
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-
-import project, { Project } from '../model/Project';
+import client from '../model/client';
+import myNFT from '../model/myNFT';
+import { contract } from '../model/contract';
 
 @observer
 class HomePage extends PureComponent<
     RouteComponentProps<{}, {}, { guest: string }>
 > {
-    componentDidMount() {
-        project.getList(
-            'facebook/react',
-            'microsoft/TypeScript',
-            'mobxjs/mobx',
-            'react-bootstrap/react-bootstrap',
-            'EasyWebApp/KoAJAX'
-        );
+    async mintNFT() {
+        try {
+            // 未封装形式的合约调用
+            /**
+             if (!window.ethereum) throw Error("请安装 MetaMask!"); // 判断是否已经安装 Metamask
+             const provider = new providers.Web3Provider(window.ethereum); // 获取 provider
+             const accounts = await provider.send("eth_requestAccounts", []); 
+             const account = accounts?.length > 0 ? accounts[0] : '';
+             const { chainId } = await provider.getNetwork(); // 获取链接网络
+             if (chainId !== 4) throw("not Rinkeby!");
+             const { address, abi } = contract.myNFT;
+             const daiContract = new Contract(address, abi, provider); // new 合约实例
+             const re = await daiContract.balanceOf(account); // 获取当前账户的 mint 个数
+             console.log("balanceOf - re:", re);
+             */
+
+            const account = await client.requestAccounts(); // 登录
+            const balance = await myNFT.balanceOf(account); // 获取当前账户的 mint 个数
+            console.log(balance);
+
+            if (!balance) {
+                // 当 mint 个数为 0，执行
+
+                // 生成随机的 ID
+                // const myNFTIdString =
+                //     '' + Math.round(Math.random() * 89 + 10) + Date.now();
+                // const myNFTIdNum = Number(myNFTIdString);
+                const myNFTIdNum = Number(
+                    '' + Math.round(Math.random() * 89 + 10) + Date.now()
+                ); // 上面两条语句可合成这一条语句
+                console.log('myNFTIdNum:', myNFTIdNum);
+
+                await myNFT.mint(account, myNFTIdNum); // mint 指定 ID 的 NFT
+                await myNFT.balanceOf(account); // 获取当前账户的 mint 个数
+            }
+        } catch (error: any) {
+            console.log('err:', error);
+        }
     }
 
-    componentWillUnmount() {
-        project.clearList();
+    async componentDidMount() {
+        // 组件挂载后执行
+        await client.requestAccounts();
+        const account = client.account;
+        if (account) {
+            // 用户已登录执行
+            const balance = await myNFT.balanceOf(account);
+            console.log(balance);
+        }
     }
-
-    renderProject = ({
-        id,
-        name,
-        logo,
-        description,
-        homepage,
-        html_url
-    }: Project) => (
-        <Col className="mb-3" xs={12} sm={6} md={3} key={id}>
-            <Card className="h-100">
-                <Card.Img variant="top" src={logo} />
-                <Card.Body>
-                    <Card.Title>{name}</Card.Title>
-                    <Card.Text>{description}</Card.Text>
-                </Card.Body>
-                <Card.Footer className="d-flex justify-content-between">
-                    <Button
-                        variant="primary"
-                        size="sm"
-                        target="_blank"
-                        href={homepage}
-                    >
-                        Home page
-                    </Button>
-                    <Button
-                        variant="success"
-                        size="sm"
-                        target="_blank"
-                        href={html_url}
-                    >
-                        Source code
-                    </Button>
-                </Card.Footer>
-            </Card>
-        </Col>
-    );
 
     render() {
-        const { guest } = this.props.query,
-            { list } = project;
-
+        const { guest } = this.props.query;
+        const { account } = client;
         return (
-            <Container fluid="md">
-                <h1 className="my-4">Upstream projects</h1>
-
+            <Container
+                fluid="md"
+                className="vh-100 d-flex justify-content-center  align-items-center"
+            >
                 {guest && <h2>Welcome {guest}!</h2>}
 
-                <Row>{list.map(this.renderProject)}</Row>
+                {!account && <h1 className="my-4">欢迎，请登录！</h1>}
+
+                {account && myNFT.balance <= 0 && (
+                    <Button onClick={() => this.mintNFT()}>Mint My NFT</Button>
+                )}
+
+                {account && myNFT.balance > 0 && (
+                    <p className="h3">You Minted</p>
+                )}
             </Container>
         );
     }

@@ -1,8 +1,8 @@
 import { auto } from 'browser-unhandled-rejection';
-import { serviceWorkerUpdate } from 'web-utility';
 import { render } from 'react-dom';
 
 import { PageFrame } from './page';
+import metamask from './model/metamask';
 
 auto();
 
@@ -12,24 +12,24 @@ self.addEventListener('unhandledrejection', ({ reason }) => {
     if (message) self.alert(message);
 });
 
-const { serviceWorker } = window.navigator,
-    { NODE_ENV = 'development' } = process.env;
+// 监听网络改变
+window.ethereum.on(
+    'chainChanged',
+    chainId => {
+        console.log('------chainChanged-------', chainId); // 打印改变后的网络 ID
+        if (Number(chainId) !== 4) alert('not Rinkeby!');
+    },
+    { once: true }
+);
 
-if (NODE_ENV !== 'development')
-    serviceWorker
-        ?.register('sw.js')
-        .then(serviceWorkerUpdate)
-        .then(worker => {
-            if (
-                window.confirm(
-                    'New version of this Web App detected, update now?'
-                )
-            )
-                worker.postMessage({ type: 'SKIP_WAITING' });
-        });
-
-serviceWorker?.addEventListener('controllerchange', () =>
-    window.location.reload()
+// 监听账户改变
+window.ethereum.on(
+    'accountsChanged',
+    accounts => {
+        console.log('------accountsChanged-------');
+        location.reload();
+    },
+    { once: true }
 );
 
 render(<PageFrame />, document.querySelector('#app'));

@@ -15,8 +15,10 @@
         "browser-fs-access": "^0.31.0",
         "browser-unhandled-rejection": "^1.0.2",
         "editorjs-html": "^3.4.2",
+        "ethers": "5.6",
         "idea-react": "^0.27.7",
         "iterable-observer": "^1.0.0-rc.1",
+        "jsdom": "^20.0.0",
         "koajax": "^0.8.3",
         "mobx": "^5.15.7",
         "mobx-react": "^6.3.1",
@@ -33,6 +35,7 @@
     "devDependencies": {
         "@octokit/openapi-types": "^13.12.0",
         "@parcel/config-default": "2.7.0",
+        "@parcel/core": "^2.7.0",
         "@parcel/packager-raw-url": "2.7.0",
         "@parcel/transformer-less": "2.7.0",
         "@parcel/transformer-raw": "2.7.0",
