@@ -7,6 +7,8 @@ import { Container, Button } from 'react-bootstrap';
 import client from '../model/client';
 import myNFT from '../model/myNFT';
 import { contract } from '../model/contract';
+import vote from '../model/vote';
+import { formatEther } from 'ethers/lib/utils';
 
 @observer
 class HomePage extends PureComponent<
@@ -32,21 +34,21 @@ class HomePage extends PureComponent<
             const balance = await myNFT.balanceOf(account); // 获取当前账户的 mint 个数
             console.log(balance);
 
-            if (!balance) {
-                // 当 mint 个数为 0，执行
+            // if (!balance) {
+            // 当 mint 个数为 0，执行
 
-                // 生成随机的 ID
-                // const myNFTIdString =
-                //     '' + Math.round(Math.random() * 89 + 10) + Date.now();
-                // const myNFTIdNum = Number(myNFTIdString);
-                const myNFTIdNum = Number(
-                    '' + Math.round(Math.random() * 89 + 10) + Date.now()
-                ); // 上面两条语句可合成这一条语句
-                console.log('myNFTIdNum:', myNFTIdNum);
+            // 生成随机的 ID
+            // const myNFTIdString =
+            //     '' + Math.round(Math.random() * 89 + 10) + Date.now();
+            // const myNFTIdNum = Number(myNFTIdString);
+            const myNFTIdNum = Number(
+                '' + Math.round(Math.random() * 89 + 10) + Date.now()
+            ); // 上面两条语句可合成这一条语句
+            console.log('myNFTIdNum:', myNFTIdNum);
 
-                await myNFT.mint(account, myNFTIdNum); // mint 指定 ID 的 NFT
-                await myNFT.balanceOf(account); // 获取当前账户的 mint 个数
-            }
+            await myNFT.mint(account, myNFTIdNum); // mint 指定 ID 的 NFT
+            await myNFT.balanceOf(account); // 获取当前账户的 mint 个数
+            // }
         } catch (error: any) {
             console.log('err:', error);
         }
@@ -61,6 +63,23 @@ class HomePage extends PureComponent<
             const balance = await myNFT.balanceOf(account);
             console.log(balance);
         }
+        await myNFT.ApprovalEvent();
+
+        // 事件监听
+        const daiContract = await client.getDaiContract(contract.myNFT);
+        daiContract.on('Transfer', (...re) => {
+            console.log('NO.1 ----> re:', re);
+        });
+
+        const filter = daiContract.filters.Transfer(null, null, null);
+        daiContract.on(filter, (...re) => {
+            console.log('NO.2 ----> re:', re);
+        });
+    }
+
+    async componentWillUnmount() {
+        const daiContract = await client.getDaiContract(contract.myNFT);
+        daiContract.removeAllListeners();
     }
 
     render() {
@@ -69,18 +88,20 @@ class HomePage extends PureComponent<
         return (
             <Container
                 fluid="md"
-                className="vh-100 d-flex justify-content-center  align-items-center"
+                className="vh-100 d-flex flex-column justify-content-center align-items-center"
             >
                 {guest && <h2>Welcome {guest}!</h2>}
 
                 {!account && <h1 className="my-4">欢迎，请登录！</h1>}
 
-                {account && myNFT.balance <= 0 && (
-                    <Button onClick={() => this.mintNFT()}>Mint My NFT</Button>
-                )}
-
                 {account && myNFT.balance > 0 && (
                     <p className="h3">You Minted</p>
+                )}
+
+                {account && (
+                    <Button onClick={() => this.mintNFT()}>
+                        Mint My NFT {myNFT.balance > 0 && 'Again'}
+                    </Button>
                 )}
             </Container>
         );

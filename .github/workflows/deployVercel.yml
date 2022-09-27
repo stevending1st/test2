@@ -1,0 +1,41 @@
+name: Deploy Vercel CI
+on:
+    push:
+        branches:
+            - dev
+jobs:
+    deploy:
+        env:
+            VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+            VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+            VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+            ENVIRONMENT_VARIABLE: ${{ secrets.ENV_TEST }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check the secrets configuration
+              if: ${{ !env.VERCEL_TOKEN || !env.VERCEL_ORG_ID || !env.VERCEL_PROJECT_ID || !env.ENVIRONMENT_VARIABLE }}
+              run: |
+                  if (${{!env.VERCEL_TOKEN}}); then echo "secrets.VERCEL_TOKEN does not set the value"; fi;
+                  if (${{!env.VERCEL_ORG_ID}}); then echo "secrets.VERCEL_ORG_ID does not set the value"; fi;
+                  if (${{!env.VERCEL_PROJECT_ID}}); then echo "secrets.VERCEL_PROJECT_ID does not set the value"; fi;
+                  if (${{!env.ENVIRONMENT_VARIABLE}}); then echo "secrets.ENV_TEST does not set the value"; fi;
+                  exit 1
+
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Get the production env.environment file
+              run: |
+                  cat > .env <<EOF
+                  ${{ env.ENVIRONMENT_VARIABLE }}
+                  EOF
+
+            - name: Deploy to Vercel(Test Environment)
+              uses: amondnet/vercel-action@v20
+              with:
+                  vercel-token: ${{ secrets.VERCEL_TOKEN }}
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+                  vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+                  scope: ${{ secrets.VERCEL_ORG_ID }}
+                  working-directory: ./

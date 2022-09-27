@@ -30,6 +30,22 @@ export class MyNFTModel {
         const daiContract = await client.getDaiContract(contract.myNFT);
         return daiContract.userOwnedTokens(address);
     }
+
+    async ApprovalEvent() {
+        const daiContract = await client.getDaiContract(contract.myNFT);
+        const approvalEventOutput = await daiContract.queryFilter({
+            address: contract.myNFT.address
+        });
+        console.log('ApprovalEventOutput:', approvalEventOutput);
+        approvalEventOutput.map(({ args }, index) =>
+            console.log(
+                `第${index}：`,
+                args?.from,
+                args?.to,
+                args?.id?.toNumber()
+            )
+        );
+    }
 }
 
 export default new MyNFTModel();
