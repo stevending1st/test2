@@ -1,6 +1,6 @@
 ![](src/image/logo.png)
 
-# Solidity CN - DApp front - 1
+# Solidity CN - DApp front
 
 [React][1] project scaffold based on [TypeScript][2], [MobX][3] & [Bootstrap][4],
 which is inspired by [WebCell scaffold][5].
