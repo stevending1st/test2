@@ -1,76 +1,33 @@
 {
-    "name": "@solidity-cn/dapp-front",
-    "version": "0.3.0",
-    "description": "React project scaffold based on TypeScript, MobX & Bootstrap, which is inspired by WebCell scaffold.",
-    "author": "shiy2008@gmail.com",
-    "dependencies": {
-        "@editorjs/code": "^2.7.0",
-        "@editorjs/editorjs": "^2.25.0",
-        "@editorjs/header": "^2.6.2",
-        "@editorjs/image": "^2.6.2",
-        "@editorjs/link": "^2.4.1",
-        "@editorjs/list": "^1.7.0",
-        "@editorjs/paragraph": "^2.8.0",
-        "@editorjs/quote": "^2.4.0",
-        "browser-fs-access": "^0.31.0",
-        "browser-unhandled-rejection": "^1.0.2",
-        "editorjs-html": "^3.4.2",
-        "ethers": "5.6",
-        "idea-react": "^0.27.7",
-        "iterable-observer": "^1.0.0-rc.1",
-        "jsdom": "^20.0.0",
-        "koajax": "^0.8.3",
-        "mobx": "^5.15.7",
-        "mobx-react": "^6.3.1",
-        "mobx-restful": "^0.6.0-rc.8",
-        "react": "^17.0.2",
-        "react-bootstrap": "^2.5.0",
-        "react-bootstrap-editor": "^1.0.0-rc.5",
-        "react-dom": "^17.0.2",
-        "react-editor-js": "^2.1.0",
-        "react-router-class-tools": "^0.1.2",
-        "react-router-dom": "^6.4.0",
-        "web-utility": "^3.9.4"
-    },
-    "devDependencies": {
-        "@octokit/openapi-types": "^13.12.0",
-        "@parcel/config-default": "2.7.0",
-        "@parcel/core": "^2.7.0",
-        "@parcel/packager-raw-url": "2.7.0",
-        "@parcel/transformer-less": "2.7.0",
-        "@parcel/transformer-raw": "2.7.0",
-        "@parcel/transformer-typescript-tsc": "2.7.0",
-        "@parcel/transformer-webmanifest": "2.7.0",
-        "@types/node": "^14.18.29",
-        "@types/react": "^17.0.50",
-        "@types/react-dom": "^17.0.17",
-        "husky": "^8.0.1",
-        "lint-staged": "^13.0.3",
-        "parcel": "2.7.0",
-        "postcss": "^8.4.16",
-        "postcss-modules": "^4.3.1",
-        "prettier": "^2.7.1",
-        "prismjs": "^1.29.0",
-        "process": "^0.11.10",
-        "typescript": "~4.7.4",
-        "workbox-cli": "^6.5.4"
-    },
-    "prettier": {
-        "singleQuote": true,
-        "trailingComma": "none",
-        "arrowParens": "avoid",
-        "tabWidth": 4
-    },
-    "lint-staged": {
-        "*.{html,md,less,json,yml,js,ts,tsx}": "prettier --write"
-    },
-    "browserslist": "> 0.5%, last 2 versions, not dead",
-    "scripts": {
-        "prepare": "husky install",
-        "test": "lint-staged",
-        "start": "parcel src/index.html --open",
-        "start:gitpod": "parcel src/index.html",
-        "pack": "parcel build src/index.html --public-url .",
-        "build": "rm -rf dist/  &&  npm run pack  &&  workbox generateSW"
-    }
+  "name": "news-translation",
+  "version": "1.0.0",
+  "license": "CC-BY-NC-SA-4.0",
+  "homepage": "https://github.com/freeCodeCamp/news-translation#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freeCodeCamp/news-translation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/freeCodeCamp/news-translation/issues"
+  },
+  "devDependencies": {
+    "@lint-md/cli": "^2.0.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none"
+  },
+  "lint-staged": {
+    "*.{json,yml,js}": "prettier --write",
+    "*.md": "lint-md --fix"
+  },
+  "scripts": {
+    "lint": "lint-md chinese/**/*.md",
+    "format": "lint-md chinese/**/*.md --fix",
+    "test": "lint-staged",
+    "prepare": "husky"
+  }
 }
