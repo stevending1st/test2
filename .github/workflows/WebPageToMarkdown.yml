@@ -6,7 +6,7 @@ on:
 jobs:
   WebPageToMarkdown:
     runs-on: ubuntu-latest
-    if: github.event.issue.body && github.event.issue.title =~ ^\[Auto\]*
+    if: ${{ github.event.issue.body && github.event.issue.title =~ ^\[Auto\]* }}
     steps:
       - name: Does the issue need to be converted to markdown
         shell: bash
