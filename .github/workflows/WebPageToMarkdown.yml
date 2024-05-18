@@ -6,10 +6,11 @@ on:
 jobs:
   WebPageToMarkdown:
     runs-on: ubuntu-latest
-    if: ${{ github.event.issue.body && startsWith(github.event.issue.title, '[Auto]') }}
     steps:
       - uses: actions/checkout@v3
+        if: ${{ github.event.issue.body && startsWith(github.event.issue.title, '[Auto]') }}
       - name: Crawl pages and generate Markdown files
+        if: ${{ github.event.issue.body && startsWith(github.event.issue.title, '[Auto]') }}
         uses: freeCodeCamp-China/article-webpage-to-markdown-action@v1
         with:
           newsLink: "${{ github.event.issue.Body }}"
@@ -18,6 +19,7 @@ jobs:
           githubToken: ${{ github.token }}
 
       - name: Git Auto Commit
+        if: ${{ github.event.issue.body && startsWith(github.event.issue.title, '[Auto]') }}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "${{ github.event.issue.title }}"
