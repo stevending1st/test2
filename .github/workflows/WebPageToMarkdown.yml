@@ -24,7 +24,6 @@ jobs:
           githubToken: ${{ github.token }}
 
       - name: Git Auto Commit
-        # if: ${{ github.event.issue.body && startsWith(github.event.issue.title, '[Auto]') }}
         if: ${{ env.issue_body && startsWith(env.issue_title, '[Auto]') }}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
@@ -34,12 +33,10 @@ jobs:
           commit_user_email: PageToMarkdown-bot@freeCodeCamp.org
 
       - name: Abnormal hint 1
-        # if: ${{ !startsWith(github.event.issue.title, '[Auto]') }}
         if: ${{ !startsWith(env.issue_title, '[Auto]') }}
         shell: bash
-        run: echo "This issue does not need to generate a markdown file."
+        run: echo "This issue does not need to generate a markdown file." 1>&2 exit 1;
       - name: Abnormal hint 2
-        # if: ${{ !github.event.issue.body }}
         if: ${{ !env.issue_body }}
         shell: bash
-        run: echo "The description of the issue is empty."
+        run: echo "The description of the issue is empty." 1>&2 exit 1;
