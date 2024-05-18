@@ -30,7 +30,7 @@ jobs:
       - name: Abnormal hint 1
         if: ${{ !startsWith(github.event.issue.title, '[Auto]') }}
         shell: bash
-        run: echo "This issue does not need to generate a markdown file."'
+        run: echo "This issue does not need to generate a markdown file."
       - name: Abnormal hint 2
         if: ${{ !github.event.issue.body }}
         shell: bash
