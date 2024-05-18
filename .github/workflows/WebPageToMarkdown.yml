@@ -31,7 +31,7 @@ jobs:
           commit_user_email: PageToMarkdown-bot@freeCodeCamp.org
 
       - name: MSg
-        if: ${{ startsWith(github.event.issue.title, '[Auto]') }}
+        if: ${{ env.isIssueTitleFormat }}
         shell: bash
         run: |
           echo $env.hasBody;
