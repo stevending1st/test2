@@ -35,8 +35,8 @@ jobs:
       - name: Abnormal hint 1
         if: ${{ !startsWith(env.issue_title, '[Auto]') }}
         shell: bash
-        run: echo "This issue does not need to generate a markdown file." 1>&2 exit 1;
+        run: echo "This issue does not need to generate a markdown file." 1>&2; exit 1;
       - name: Abnormal hint 2
         if: ${{ !env.issue_body }}
         shell: bash
-        run: echo "The description of the issue is empty." 1>&2 exit 1;
+        run: echo "The description of the issue is empty." 1>&2; exit 1;
