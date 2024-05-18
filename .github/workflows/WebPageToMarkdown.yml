@@ -16,16 +16,16 @@ jobs:
         if: ${{ env.hasBody && env.isIssueTitleFormat}}
         uses: freeCodeCamp-China/article-webpage-to-markdown-action@v1
         with:
-          newsLink: '${{ github.event.issue.Body }}'
-          ignoreSelector: '.ad-wrapper'
-          markDownFilePath: './chinese/articles/'
+          newsLink: "${{ github.event.issue.Body }}"
+          ignoreSelector: ".ad-wrapper"
+          markDownFilePath: "./chinese/articles/"
           githubToken: ${{ github.token }}
 
       - name: Git Auto Commit
         if: ${{ env.hasBody && env.isIssueTitleFormat}}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: '${{ github.event.issue.title }}'
+          commit_message: "${{ github.event.issue.title }}"
           file_pattern: chinese/articles/*.md
           commit_user_name: PageToMarkdown Bot
           commit_user_email: PageToMarkdown-bot@freeCodeCamp.org
@@ -34,4 +34,8 @@ jobs:
         if: ${{ !env.hasBody || !env.isIssueTitleFormat }}
         shell: bash
         run: |
-           echo "This issue does not need to generate a markdown file. Or the description of the issue is empty."
+          if [ !env.hasBody ]; then
+            echo "The description of the issue is empty."
+          elif [ !env.isIssueTitleFormat ]; then
+            echo "This issue does not need to generate a markdown file."
+          fi
