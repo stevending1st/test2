@@ -26,7 +26,7 @@ jobs:
           commit_user_email: PageToMarkdown-bot@freeCodeCamp.org
   CancelledStep:
     runs-on: ubuntu-latest
-    if: ${{ cancelled() }}
+    if: ${{ !jobs.WebPageToMarkdown.if }}
     steps:
       - name: Does the issue need to be converted to markdown
         shell: bash
