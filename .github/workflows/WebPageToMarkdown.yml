@@ -31,7 +31,6 @@ jobs:
           commit_user_email: PageToMarkdown-bot@freeCodeCamp.org
 
       - name: MSg
-        if: ${{ !env.hasBody || !env.isIssueTitleFormat }}
         shell: bash
         run: |
           echo env.hasBody;
