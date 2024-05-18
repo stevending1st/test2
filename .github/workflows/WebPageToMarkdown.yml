@@ -33,8 +33,8 @@ jobs:
       - name: MSg
         shell: bash
         run: |
-          echo env.hasBody;
-          echo env.isIssueTitleFormat;
+          echo $env.hasBody;
+          echo $env.isIssueTitleFormat;
           if [ !env.hasBody ]; then
             echo "The description of the issue is empty."
           elif [ !env.isIssueTitleFormat ]; then
