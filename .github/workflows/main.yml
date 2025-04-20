@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Check secrets
         if: ${{ secrets.USER && secrets.PW }}
+        run: 
   Lint-and-Format:
     needs: [env-test]
     if: ${{ !cancelled() }}
