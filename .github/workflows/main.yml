@@ -10,7 +10,7 @@ jobs:
       PW: ${{ secrets.PW }}
     steps:
       - name: Check secrets
-        if: ${{ secrets.USER && secrets.PW }}
+        if: ${{ env.USER && env.PW }}
         run: echo "you set all secrets!"
   Lint-and-Format:
     needs: [env-test]
