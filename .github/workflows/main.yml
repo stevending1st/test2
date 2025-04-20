@@ -8,6 +8,7 @@ jobs:
     env:
       USER: ${{ secrets.USER }}
       PW: ${{ secrets.PW }}
+    runs-on: ubuntu-latest
     steps:
       - name: Check secrets
         if: ${{ env.USER && env.PW }}
