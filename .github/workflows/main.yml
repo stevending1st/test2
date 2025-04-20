@@ -4,7 +4,16 @@ on:
   push:
 
 jobs:
+  env-test:
+    env:
+      USER: ${{ secrets.USER }}
+      PW: ${{ secrets.PW }}
+    steps:
+      - name: Check secrets
+        if: ${{ secrets.USER && secrets.PW }}
   Lint-and-Format:
+    needs: [env-test]
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
