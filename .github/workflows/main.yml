@@ -11,26 +11,37 @@ jobs:
     
     runs-on: ubuntu-latest
     steps:
+      - name: Check if secret exists
+        id: check_secret
+        run: |
+          # 如果 secrets.MY_SECRET 存在，则输出 "exists"
+          echo "secrets_all_exists=${{ secrets.USER && secrets.PW }}" >> $GITHUB_ENV
+
       - name: Check secrets
-        if: ${{ env.USER && env.PW }}
+        if: ${{ env.secrets_all_exists }}
         run: echo "you set all secrets!"
 
       - uses: actions/checkout@v4
-        if: ${{ !cancelled() }}
+        if: ${{ env.secrets_all_exists }}
 
       - uses: pnpm/action-setup@v3
+        if: ${{ env.secrets_all_exists }}
         with:
           version: 9
       - uses: actions/setup-node@v4
+        if: ${{ env.secrets_all_exists }}
         with:
           node-version: 'lts/*'
           cache: pnpm
       - name: Install Dependencies
+        if: ${{ env.secrets_all_exists }}
         run: pnpm i --frozen-lockfile
 
       - name: Lint & Format
+        if: ${{ env.secrets_all_exists }}
         run: pnpm format
 
       - uses: stefanzweifel/git-auto-commit-action@v5
+        if: ${{ env.secrets_all_exists }}
         with:
           commit_message: Auto Format
