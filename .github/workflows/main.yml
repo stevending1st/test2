@@ -4,21 +4,19 @@ on:
   push:
 
 jobs:
-  env-test:
+  Lint-and-Format:
     env:
       USER: ${{ secrets.USER }}
       PW: ${{ secrets.PW }}
+    
     runs-on: ubuntu-latest
     steps:
       - name: Check secrets
         if: ${{ env.USER && env.PW }}
         run: echo "you set all secrets!"
-  Lint-and-Format:
-    needs: [env-test]
-    if: ${{ !cancelled() }}
-    runs-on: ubuntu-latest
-    steps:
+
       - uses: actions/checkout@v4
+        if: ${{ !cancelled() }}
 
       - uses: pnpm/action-setup@v3
         with:
