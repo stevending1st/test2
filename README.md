@@ -1,0 +1,1 @@
+![GitCode badge]([https://gitcode-badge-cc5dpdrdk-stevending1sts-projects.vercel.app/api/badge/gitcode/maili11/kaiyuangongchuang?metric=stars](https://gitcode-badge-7yvbvkf4p-stevending1sts-projects.vercel.app/api/badge/gitcode/maili11/kaiyuangongchuang?metric=stars))
